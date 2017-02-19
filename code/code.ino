@@ -4,12 +4,14 @@ Arduino Nano OBD reader (OBD protocol KW1281,  Audi A4 B5 etc.)
 wiring:
 D2 --- OBD level shifter input (RX) (e.g. LM339)
 D3 --- OBD level shifter output (TX) (e.g. LM339)
-A5 --- Arduino 20x4 LCD display SCL
-A4 --- Arduino 20x4 LCD display SDA
+HD44780 default wiring
 
 NOTE: For the level shifting, I used a 'AutoDia K409 Profi USB adapter', disassembled it,
       and connected the Arduino to the level shifter chip (LM339) - the original FTDI chip TX line
       was removed (so it does not influence the communication)
+
+NOTE2: all serial debug communication commented out for live version, uncomment if you want it 
+
 */
 
 #include <EEPROM.h>
@@ -27,7 +29,7 @@ NOTE: For the level shifting, I used a 'AutoDia K409 Profi USB adapter', disasse
 // https://www.blafusel.de/obd/obd2_kw1281.html
 
 #define ADR_Engine 0x01
-#define ADR_Gears  0x02
+//#define ADR_Gears  0x02
 #define ADR_ABS_Brakes 0x03
 #define ADR_Airbag 0x15
 #define ADR_Dashboard 0x17
@@ -36,8 +38,7 @@ NOTE: For the level shifting, I used a 'AutoDia K409 Profi USB adapter', disasse
 
 //#define DEBUG 1
 
-//LiquidCrystal_I2C lcd(0x27,20,4);  // set the LCD address to 0x20 for a 16 chars and 2 line display
-// RS,Enable,D4,D5,D6,D7,  10k resistor 5v-out-gnd
+//4x20 HD44780 default adafriut wiring 4bit mode
 LiquidCrystal lcd(12, 11, 7, 6 , 5, 4);
 
 NewSoftwareSerial obd(pinKLineRX, pinKLineTX, false); // RX, TX, inverse logic
@@ -52,7 +53,6 @@ int pageUpdateCounter = 0;
 int alarmCounter = 0;
 
 uint8_t currPage = 1;
-
 
 int8_t coolantTemp = 0;
 int8_t oilTemp = 0;
@@ -250,7 +250,6 @@ void printBlancLine(int x, int y)
 void printBigInt(uint8_t val, int x, int y) 
 {
   x-=3;
-
 
 /*  0 <= uint8_t < 255
   if(val > 9999)
@@ -864,14 +863,10 @@ void updateDisplay() {
       // millis() - time since code on arduino is running == trip time
       if( (((millis()/1000)%60)%2) == 0 )           // blinknder Doppelpunkttrenner: gerade Sejunde mit Punkt ungerade ohne
       {
-      //  sprintf(buf, "%02lu:%02lu:%02lu:%02lu enld%3d%%", (millis()/3600000), (millis()/60000)%60,(millis()/1000)%60,  (millis()/10)%100, engineLoad);
-      //  sprintf(buf, "%02lu:%02lu:%02lu:%02lu %7lum", (millis()/3600000), (millis()/60000)%60,(millis()/1000)%60,  (millis()/10)%100, (long)tripDist);
         sprintf(buf, "%02lu:%02lu:%02lu:%02lu %4lu.%1luKm", (millis()/3600000), (millis()/60000)%60,(millis()/1000)%60,  (millis()/10)%100, ((long)tripDist)/1000, (((long)tripDist)%1000)/100);
       }
       else
       {
-      //  sprintf(buf, "%02lu %02lu %02lu %02lu enld%3d%%", (millis()/3600000), (millis()/60000)%60,(millis()/1000)%60,  (millis()/10)%100, engineLoad);
-      //  sprintf(buf, "%02lu %02lu %02lu %02lu %7lum", (millis()/3600000), (millis()/60000)%60,(millis()/1000)%60,  (millis()/10)%100, (long)tripDist);
         sprintf(buf, "%02lu %02lu %02lu %02lu %4lu.%1luKm", (millis()/3600000), (millis()/60000)%60,(millis()/1000)%60,  (millis()/10)%100, ((long)tripDist)/1000, (((long)tripDist)%1000)/100);
       }
       lcd.print(buf);
@@ -890,7 +885,7 @@ void setup() {
   
   char buff21[21];
   
-  //EEPROM.write(vMaxAddr, 0);  // zero the eeprom value         
+  //EEPROM.write(vMaxAddr, 0);  // zero the eeprom value   for vMax      
   vMax = (int)EEPROM.read(vMaxAddr);
   sprintf(buff21, "SETUP  --- vMax: %3d", vMax);
   lcd.print(buff21);
@@ -960,26 +955,6 @@ void loop() {
       }
       break;
   }
-  /*
-  tripDistM += ((millis()-lastMillis) * vehicleSpeed ) / 3600000;
-  lastMillis = millis();
-  */
-  /*
-  vehicleSpeedMS = vehicleSpeed/3.6;
-  tripDistM += (vehicleSpeedMS * 3600000)/(1000*(millis()-lastMillis));
-  */
-
-  
-  //empiric correction value
-  //tripDistM /= 4.53;     //
-  //tripDistM /= 3;     //    1,0km 13
-  //tripDistM /= 3.7;     //    1,0km 13
-   
-  //0,9         3994m
-  //1,2         5306
-  //2,0         8901
-  //3,2         14496     14496/3200=4,53
-
   deltaT = millis() - lastMillis;
   lastMillis = millis();                         
   deltaV = (vehicleSpeed + lastVehicleSpeed) / 2; //durschnittsgeschwindigkeit fuer deltaT
@@ -987,12 +962,8 @@ void loop() {
   
   if (vehicleSpeed > 0)
   {
-//     tripDist += (1000 * deltaV * deltaT) / 3600000;
      tripDist += (((deltaV * deltaT) / 3600) * distCorrVal);
   }
-  
-
-  
   updateDisplay();
 }
 
