@@ -17,7 +17,7 @@ In my case the values of interest are (sketch line from 700 - 749):
 * cant get trip distance from my ecu so i have to calculate it manually (sketch line 983 - 992)
 
 What does it do ?
-The arduino talks countinuously to the ecu and grab the values. One loop needs ~600 to 800ms, so in combination with the slow liquid crystal display the update rate looks a litte bit fluent - i like it :-) Short video here: https://youtu.be/cPSXtPx7gjU
+The arduino talks countinuously to the ecu and grab the values. One loop needs ~600 to 800ms, so in combination with the slow liquid crystal display the update rate looks a litte bit fluent - i like it :-) Short video here: https://www.youtube.com/watch?v=IpqHjx0bSsI
 
 Also the maximus speed is saved to arduino eeprom to survive loss of power. All the other values are zeroed by power loss.
 
