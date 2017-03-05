@@ -27,7 +27,9 @@ Hardware used:
 * cheap 4x40 hd44780 lcd display from ebay, with green backlight and inverted
 
 Hardware mods to be done:
-* open usb kkl cable and cut rx und tx line from FTDI chip (watch datasheet to your FTDI chip to find the correct lines)
+* open usb kkl cable and cut rx und tx line from FTDI chip (watch datasheet to your FTDI chip to find the correct lines):
+![alt tag](https://raw.githubusercontent.com/mkirbst/lupo-gti-tripcomputer-kw1281/master/hardware/01-modify-upper-side.png)
+![alt tag](https://raw.githubusercontent.com/mkirbst/lupo-gti-tripcomputer-kw1281/master/hardware/01-modify-lower-side.png)
 * solder vcc, gnd, rx, tx from level shifter (kkl cable) to definded arduino pins (see code file)
 * solder lcd display pins to defined arduino pins (see code file)
 
