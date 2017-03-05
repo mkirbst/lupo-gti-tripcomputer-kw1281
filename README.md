@@ -1,6 +1,8 @@
 # lupo-gti-tripcomputer-kw1281
 A tripcomputer for VW Lupo GTI using kw1281 protocoll
 
+![alt_tag](https://raw.githubusercontent.com/mkirbst/lupo-gti-tripcomputer-kw1281/master/hardware/tripcomputer.JPG)
+
 **!!! WARNING: code is quick & dirty - use at own risk - uploaded only for learning purposes - DONT DO IT AT HOME !!!**
 
 In my 2001 Lupo, i want a display that shows the time and distance driven since engine start. This car is so old that there is no CAN BUS signal at the OBD diagnostic connector, but only the old KW1281 serial communication protocol. Some googling around bring the following sources:
