@@ -19,8 +19,8 @@ NOTE2: all serial debug communication commented out for live version, uncomment 
 #include "NewSoftwareSerial.h"
 #include "bigInt.h"
 
-#define pinKLineRX 2
-#define pinKLineTX 3
+#define pinKLineRX 2          //white
+#define pinKLineTX 3          //orange
 #define pinLED 9
 #define pinBuzzer 5
 #define pinButton 8
