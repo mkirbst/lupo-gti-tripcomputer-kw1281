@@ -2,6 +2,12 @@
 A tripcomputer for VW Lupo GTI using kw1281 protocoll
 
 ![alt_tag](https://raw.githubusercontent.com/mkirbst/lupo-gti-tripcomputer-kw1281/master/hardware/tripcomputer.JPG)
+Description:
+* upper left corner: actual vehicle speed in Km/H (big digits)
+* 1.line: vMax in Km/H
+* 2.line: battery voltage in V
+* 3.line: coolant and oil temperature in grad celsius
+* 4.line: trip time and trip distance since engine start
 
 **!!! WARNING: code is quick & dirty - use at own risk - uploaded only for learning purposes - DONT DO IT AT HOME !!!**
 
