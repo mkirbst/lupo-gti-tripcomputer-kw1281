@@ -819,7 +819,7 @@ void updateDisplay() {
       /* ##  ### ### Km/H<171  
        *  #    # # # b 13.21V
        * ### ### ### w76°ö74°
-       * 00:03:56:21 enld 11%
+       * 00:03:56:21   53,9Km
        */
       
       char buf10[10];
@@ -834,9 +834,7 @@ void updateDisplay() {
       lcd.setCursor(11,0);
       sprintf(buf10, " Km/H\74%3d", vMax );     // \74 symbol "<"   uint8_t vMax
       lcd.print(buf10);
-      lcd.setCursor(11,0);
-      sprintf(buf10, " Km/H\74%3d", vMax );     // \74 symbol "<"   uint8_t vMax
-      lcd.print(buf10);
+      
 //Line2
       for( int i = 0; i < 10;  ++i )
       buf10[i] = (char)0;
